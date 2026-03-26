@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<title>婚禮座位查詢</title>
+
+<style>
+body {
+  font-family: Arial;
+  text-align: center;
+  background: #f7f7f7;
+  padding: 50px;
+}
+
+input {
+  padding: 10px;
+  width: 250px;
+  font-size: 16px;
+}
+
+button {
+  padding: 10px 20px;
+  margin-left: 10px;
+}
+
+#result {
+  margin-top: 30px;
+  font-size: 20px;
+}
+
+img {
+  margin-top: 20px;
+  width: 200px;
+}
+</style>
+</head>
+
+<body>
+
+<h2>婚禮座位查詢</h2>
+
+<input id="name" placeholder="請輸入您的全名">
+<button onclick="search()">查詢</button>
+
+<div id="result"></div>
+
+<script>
+
+// ===== 資料庫（你只要改這裡）=====
+const data = {
+  "王小明": 1,
+  "林小美": 6,
+  "陳大同": 3,
+  "何佳穎": "主"
+};
+
+// ===== 查詢 =====
+function search(){
+  const name = document.getElementById("name").value.trim();
+  const result = document.getElementById("result");
+
+  if(data[name]){
+    const table = data[name];
+
+    result.innerHTML = `
+      您的座位在 <b>${table} 桌</b><br>
+      <img src="images/${table}.png">
+    `;
+  }else{
+    result.innerHTML = "查無資料，請確認姓名是否正確";
+  }
+}
+
+// Enter 查詢
+document.getElementById("name").addEventListener("keydown", e=>{
+  if(e.key==="Enter") search();
+});
+
+</script>
+
+</body>
+</html>
