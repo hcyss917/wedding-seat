@@ -13,6 +13,7 @@ body {
   margin: 0;
 }
 
+/* 標題 */
 h1 {
   color: #3a5f8a;
   font-size: 32px;
@@ -25,6 +26,7 @@ h2 {
   margin-bottom: 30px;
 }
 
+/* 輸入 */
 input {
   padding: 12px;
   width: 260px;
@@ -33,6 +35,7 @@ input {
   border: 1px solid #ccc;
 }
 
+/* 按鈕 */
 button {
   padding: 12px 20px;
   margin-left: 10px;
@@ -47,16 +50,30 @@ button:hover {
   background: #5f94d4;
 }
 
+/* 查詢結果 */
 #result {
   margin-top: 40px;
   font-size: 22px;
 }
 
-img {
+/* 圖片 */
+img.result-img {
   margin-top: 20px;
   width: 220px;
   border-radius: 15px;
   box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+/* ⭐ 漂浮LOGO */
+.logo-bottom {
+  position: fixed;
+  bottom: 25px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 140px;
+  opacity: 0.95;
+
+  filter: drop-shadow(0 4px 8px rgba(0,0,0,0.15));
 }
 </style>
 </head>
@@ -71,9 +88,12 @@ img {
 
 <div id="result"></div>
 
+<!-- ⭐ LOGO（固定底部） -->
+<img src="images/logo.png" class="logo-bottom">
+
 <script>
 
-// ===== 完整資料 =====
+// ===== 名單 =====
 const data = {
 
   "何佳穎": "主","何建賢": "主","何靜宜": "主","廖金珠": "主","簡維均": "主",
@@ -120,7 +140,7 @@ function search(){
 
     result.innerHTML = `
       您的座位在 <b style="color:#3a5f8a;">${table} 桌</b><br>
-      <img src="images/${table}.png"><br><br>
+      <img src="images/${table}.png" class="result-img"><br><br>
       <span style="color:#6b8fb3;">婚禮見！</span>
     `;
   }else{
