@@ -11,13 +11,11 @@ body {
   margin: 0;
   padding: 50px;
 
-  /* ⭐ 背景鋪滿 */
   background-image: url("images/bg.png");
   background-size: auto;
   background-repeat: repeat;
 }
 
-/* ⭐ 白色遮罩 */
 body::before {
   content: "";
   position: fixed;
@@ -27,17 +25,14 @@ body::before {
   z-index:-1;
 }
 
-/* ⭐ LOGO */
 .logo-top {
   width: 160px;
   margin-bottom: 20px;
 }
 
-/* 標題 */
 h1 {
   color: #3a5f8a;
   font-size: 30px;
-  margin-bottom: 10px;
 }
 
 h2 {
@@ -46,7 +41,6 @@ h2 {
   margin-bottom: 30px;
 }
 
-/* 輸入 */
 input {
   padding: 12px;
   width: 260px;
@@ -55,13 +49,25 @@ input {
   border: 1px solid #ccc;
 }
 
-/* 結果 */
+button {
+  padding: 12px 20px;
+  margin-left: 10px;
+  background: #7faee6;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #5f94d4;
+}
+
 #result {
   margin-top: 40px;
   font-size: 22px;
 }
 
-/* 圖片 */
 img.result-img {
   margin-top: 20px;
   width: 220px;
@@ -78,13 +84,14 @@ img.result-img {
 <h1>因「偉」有你 「佳」才完整</h1>
 <h2>婚禮座位查詢</h2>
 
-<input id="name" placeholder="請輸入您的姓名">
+<input id="name" placeholder="請輸入您的全名">
+<button onclick="search()">查詢</button>
 
 <div id="result"></div>
 
 <script>
 
-// ===== 原始資料（含人數）=====
+// ===== 原始資料 =====
 const rawData = [
 
   ["何佳穎","主"],["何建賢","主"],["何靜宜","主"],["廖金珠","主"],
@@ -138,23 +145,16 @@ const rawData = [
 
 ];
 
-// ===== 即時搜尋 =====
+// ===== 精準查詢 =====
 function search(){
-  const input = document.getElementById("name").value.trim();
+  const name = document.getElementById("name").value.trim();
   const result = document.getElementById("result");
 
-  if(!input){
-    result.innerHTML = "";
-    return;
-  }
-
-  const matches = rawData.filter(d => d[0].includes(input));
+  const matches = rawData.filter(d => d[0] === name);
 
   if(matches.length > 0){
-
-    const name = matches[0][0];
     const table = matches[0][1];
-    const count = rawData.filter(d => d[0] === name).length;
+    const count = matches.length;
 
     const tableText = table === "主" ? "主桌" : `第${table}桌`;
 
@@ -169,8 +169,10 @@ function search(){
   }
 }
 
-// ⭐ 不用按按鈕，打字就查
-document.getElementById("name").addEventListener("input", search);
+// Enter 查詢
+document.getElementById("name").addEventListener("keydown", e=>{
+  if(e.key==="Enter") search();
+});
 
 </script>
 
