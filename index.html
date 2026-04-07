@@ -17,7 +17,7 @@ body {
   background-repeat: repeat;
 }
 
-/* ⭐ 半透明遮罩（讓字清楚） */
+/* ⭐ 白色遮罩 */
 body::before {
   content: "";
   position: fixed;
@@ -55,21 +55,6 @@ input {
   border: 1px solid #ccc;
 }
 
-/* 按鈕 */
-button {
-  padding: 12px 20px;
-  margin-left: 10px;
-  background: #7faee6;
-  color: white;
-  border: none;
-  border-radius: 10px;
-  cursor: pointer;
-}
-
-button:hover {
-  background: #5f94d4;
-}
-
 /* 結果 */
 #result {
   margin-top: 40px;
@@ -88,14 +73,12 @@ img.result-img {
 
 <body>
 
-<!-- ⭐ LOGO -->
 <img src="images/logo.png" class="logo-top">
 
 <h1>因「偉」有你 「佳」才完整</h1>
 <h2>婚禮座位查詢</h2>
 
-<input id="name" placeholder="請輸入您的全名">
-<button onclick="search()">查詢</button>
+<input id="name" placeholder="請輸入您的姓名">
 
 <div id="result"></div>
 
@@ -152,21 +135,31 @@ const rawData = [
   ["李婷涵",12],["李婷涵",12],["楊鈞皓",12],["黃宥朋",12],
   ["李育蓉",12],["吳柔勳",12],["吳柔勳",12],
   ["周冠邑",12],["周冠邑",12]
+
 ];
 
-// ===== 查詢 =====
+// ===== 即時搜尋 =====
 function search(){
-  const name = document.getElementById("name").value.trim();
+  const input = document.getElementById("name").value.trim();
   const result = document.getElementById("result");
 
-  const matches = rawData.filter(d => d[0] === name);
+  if(!input){
+    result.innerHTML = "";
+    return;
+  }
+
+  const matches = rawData.filter(d => d[0].includes(input));
 
   if(matches.length > 0){
+
+    const name = matches[0][0];
     const table = matches[0][1];
-    const count = matches.length;
+    const count = rawData.filter(d => d[0] === name).length;
+
+    const tableText = table === "主" ? "主桌" : `第${table}桌`;
 
     result.innerHTML = `
-      您的座位在 <b style="color:#3a5f8a;">第${table}桌</b><br>
+      您的座位在 <b style="color:#3a5f8a;">${tableText}</b><br>
       共 ${count} 位<br>
       <img src="images/${table}.png" class="result-img"><br><br>
       <span style="color:#6b8fb3;">婚禮見！</span>
@@ -176,10 +169,8 @@ function search(){
   }
 }
 
-// Enter 查詢
-document.getElementById("name").addEventListener("keydown", e=>{
-  if(e.key==="Enter") search();
-});
+// ⭐ 不用按按鈕，打字就查
+document.getElementById("name").addEventListener("input", search);
 
 </script>
 
